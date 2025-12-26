@@ -360,43 +360,250 @@
     .tech-stack {
       padding: 150px 5%;
       background: linear-gradient(180deg, transparent 0%, rgba(102, 126, 234, 0.05) 50%, transparent 100%);
+      position: relative;
     }
     
-    .tech-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 30px;
-      max-width: 1200px;
+    .tech-triangle-container {
+      position: relative;
+      max-width: 600px;
+      height: 500px;
       margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     
-    .tech-item {
-      text-align: center;
-      padding: 40px 20px;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 20px;
-      transition: all 0.3s ease;
+    .connection-lines {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    .tech-bubble {
+      position: absolute;
+      width: 200px;
+      height: 200px;
       opacity: 0;
-      transform: scale(0.9);
+      transform: scale(0.8);
+      z-index: 10;
     }
     
-    .tech-item:hover {
-      background: rgba(255, 255, 255, 0.05);
-      transform: scale(1.05);
+    .tech-bubble[data-position="top"] {
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%) scale(0.8);
     }
     
-    .tech-item h4 {
+    .tech-bubble[data-position="bottom-left"] {
+      bottom: 0;
+      left: 0;
+      transform: scale(0.8);
+    }
+    
+    .tech-bubble[data-position="bottom-right"] {
+      bottom: 0;
+      right: 0;
+      transform: scale(0.8);
+    }
+    
+    .tech-bubble.active[data-position="top"] {
+      transform: translateX(-50%) scale(1);
+    }
+    
+    .tech-bubble.active[data-position="bottom-left"] {
+      transform: scale(1);
+    }
+    
+    .tech-bubble.active[data-position="bottom-right"] {
+      transform: scale(1);
+    }
+    
+    .bubble-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.1) 100%);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+    }
+    
+    .tech-bubble:nth-child(3) .bubble-inner {
+      background: linear-gradient(135deg, rgba(240, 147, 251, 0.2) 0%, rgba(245, 87, 108, 0.1) 100%);
+      box-shadow: 0 10px 40px rgba(240, 147, 251, 0.3);
+    }
+    
+    .tech-bubble:nth-child(4) .bubble-inner {
+      background: linear-gradient(135deg, rgba(79, 172, 254, 0.2) 0%, rgba(0, 242, 254, 0.1) 100%);
+      box-shadow: 0 10px 40px rgba(79, 172, 254, 0.3);
+    }
+    
+    .tech-bubble.lit .bubble-inner {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.4) 0%, rgba(118, 75, 162, 0.3) 100%);
+      box-shadow: 0 15px 60px rgba(102, 126, 234, 0.6);
+      border-color: rgba(102, 126, 234, 0.5);
+    }
+    
+    .tech-bubble:nth-child(3).lit .bubble-inner {
+      background: linear-gradient(135deg, rgba(240, 147, 251, 0.4) 0%, rgba(245, 87, 108, 0.3) 100%);
+      box-shadow: 0 15px 60px rgba(240, 147, 251, 0.6);
+      border-color: rgba(240, 147, 251, 0.5);
+    }
+    
+    .tech-bubble:nth-child(4).lit .bubble-inner {
+      background: linear-gradient(135deg, rgba(79, 172, 254, 0.4) 0%, rgba(0, 242, 254, 0.3) 100%);
+      box-shadow: 0 15px 60px rgba(79, 172, 254, 0.6);
+      border-color: rgba(79, 172, 254, 0.5);
+    }
+    
+    .tech-bubble.spinning .bubble-inner {
+      /* Remove individual spin - bubbles will orbit instead */
+    }
+    
+    @keyframes spinBubble {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    .tech-triangle-container.orbiting {
+      animation: orbitBubbles 12s linear infinite;
+    }
+    
+    @keyframes orbitBubbles {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    .bubble-content {
+      text-align: center;
+      z-index: 2;
+      position: relative;
+      transform: rotate(0deg);
+    }
+    
+    .tech-triangle-container.orbiting .bubble-content {
+      animation: counterOrbit 12s linear infinite;
+    }
+    
+    @keyframes counterOrbit {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(-360deg); }
+    }
+    
+    .tech-emoji {
+      font-size: 48px;
+      margin-bottom: 15px;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+    }
+    
+    .bubble-content h4 {
       font-family: 'Outfit', sans-serif;
       font-size: 18px;
       font-weight: 600;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       letter-spacing: -0.2px;
+      color: white;
     }
     
-    .tech-item p {
+    .bubble-content p {
       font-size: 14px;
       color: var(--text-secondary);
+    }
+    
+    .tech-bubble {
+      cursor: pointer;
+    }
+    
+    /* Floating tooltip */
+    .floating-tooltip {
+      position: fixed;
+      width: 320px;
+      padding: 24px;
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 1000;
+      cursor: grab;
+    }
+    
+    .floating-tooltip.dragging {
+      cursor: grabbing;
+      transition: none;
+    }
+    
+    .floating-tooltip.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    
+    .tooltip-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    
+    .tooltip-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.1);
+    }
+    
+    .tooltip-line {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .tooltip-line.active {
+      opacity: 1;
+    }
+    
+    .tooltip-content h5 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: white;
+      letter-spacing: -0.3px;
+      padding-right: 20px;
+    }
+    
+    .tooltip-content p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin: 0;
     }
     
     /* CTA Section */
@@ -574,6 +781,33 @@
         padding: 80px 5%;
       }
       
+      .tech-triangle-container {
+        max-width: 350px;
+        height: 400px;
+      }
+      
+      .tech-bubble {
+        width: 140px;
+        height: 140px;
+      }
+      
+      .connection-lines {
+        width: 350px;
+        height: 400px;
+      }
+      
+      .tech-emoji {
+        font-size: 32px !important;
+      }
+      
+      .bubble-content h4 {
+        font-size: 14px !important;
+      }
+      
+      .bubble-content p {
+        font-size: 12px !important;
+      }
+      
       .cta-section {
         padding: 80px 5%;
       }
@@ -594,8 +828,7 @@
         max-width: 1200px;
       }
       
-      .features-grid,
-      .tech-grid {
+      .features-grid {
         max-width: 1600px;
       }
     }
@@ -715,7 +948,7 @@
   <!-- Features Section -->
   <section class="features" id="features">
     <div class="section-header" id="featuresHeader">
-      <div class="section-badge">Revolutionary Technology</div>
+      <div class="section-badge">Features</div>
       <h2>Productivity Intelligence<br/>That Adapts To You</h2>
       <p>Advanced machine learning that understands your workflow and maximizes output</p>
     </div>
@@ -742,38 +975,53 @@
   </section>
 
   <!-- Tech Stack Section -->
-  <section class="tech-stack">
+  <section class="tech-stack" id="technology">
     <div class="section-header" id="techHeader">
       <div class="section-badge">Technology</div>
       <h2>Built on<br/>Cutting-Edge AI</h2>
-      <p>Production-grade infrastructure designed for scale</p>
+      <p>Three core technologies working in perfect harmony</p>
     </div>
     
-    <div class="tech-grid">
-      <div class="tech-item">
-        <h4>🤗 Hugging Face</h4>
-        <p>DistilBERT Model</p>
+    <div class="tech-triangle-container">
+      
+      <div class="tech-bubble" id="bubble1" data-position="top">
+        <div class="bubble-inner">
+          <div class="bubble-content">
+            <div class="tech-emoji">🤗</div>
+            <h4>Hugging Face</h4>
+            <p>DistilBERT Model</p>
+          </div>
+        </div>
       </div>
-      <div class="tech-item">
-        <h4>Custom Regression</h4>
-        <p>Time Prediction</p>
+      
+      <div class="tech-bubble" id="bubble2" data-position="bottom-left">
+        <div class="bubble-inner">
+          <div class="bubble-content">
+            <div class="tech-emoji">🧮</div>
+            <h4>Custom Regression</h4>
+            <p>Time Prediction</p>
+          </div>
+        </div>
       </div>
-      <div class="tech-item">
-        <h4>ESP32 IoT</h4>
-        <p>Hardware Integration</p>
+      
+      <div class="tech-bubble" id="bubble3" data-position="bottom-right">
+        <div class="bubble-inner">
+          <div class="bubble-content">
+            <div class="tech-emoji">⚡</div>
+            <h4>ESP32 IoT</h4>
+            <p>Hardware Integration</p>
+          </div>
+        </div>
       </div>
-      <div class="tech-item">
-        <h4>Oracle Cloud</h4>
-        <p>Infrastructure</p>
-      </div>
-      <div class="tech-item">
-        <h4>Flask API</h4>
-        <p>Backend Services</p>
-      </div>
-      <div class="tech-item">
-        <h4>Cloudflare</h4>
-        <p>SSL & CDN</p>
-      </div>
+    </div>
+    
+    <!-- Floating tooltip (shared for all bubbles) -->
+    <div class="floating-tooltip" id="floatingTooltip">
+      <button class="tooltip-close" id="tooltipClose">×</button>
+      <svg class="tooltip-line" id="tooltipLine">
+        <line x1="0" y1="0" x2="0" y2="0" stroke="white" stroke-width="2" stroke-dasharray="5,5" opacity="0.5"/>
+      </svg>
+      <div class="tooltip-content" id="tooltipContent"></div>
     </div>
   </section>
 
@@ -910,19 +1158,49 @@
       ease: 'power3.out'
     });
     
-    // Tech items animation
-    gsap.utils.toArray('.tech-item').forEach((item, index) => {
-      gsap.to(item, {
-        scrollTrigger: {
-          trigger: item,
-          start: 'top 85%',
-        },
-        opacity: 1,
-        scale: 1,
-        duration: 0.6,
-        delay: index * 0.1,
-        ease: 'back.out(1.7)'
-      });
+    // Tech bubble animations
+    const bubbles = document.querySelectorAll('.tech-bubble');
+    const triangleContainer = document.querySelector('.tech-triangle-container');
+    
+    let bubblesAnimated = false;
+    let spinningStarted = false;
+    
+    ScrollTrigger.create({
+      trigger: '.tech-triangle-container',
+      start: 'top 70%',
+      onEnter: () => {
+        if (!bubblesAnimated) {
+          bubbles.forEach((bubble, index) => {
+            gsap.to(bubble, {
+              opacity: 1,
+              scale: 1,
+              duration: 0.8,
+              delay: index * 0.3,
+              ease: 'back.out(1.7)',
+              onComplete: () => {
+                bubble.classList.add('active');
+                // Light up bubble
+                setTimeout(() => {
+                  bubble.classList.add('lit');
+                }, 300);
+              }
+            });
+          });
+          bubblesAnimated = true;
+        }
+      }
+    });
+    
+    ScrollTrigger.create({
+      trigger: '.tech-triangle-container',
+      start: 'top 50%',
+      onEnter: () => {
+        if (!spinningStarted) {
+          // Make the entire triangle orbit around center
+          triangleContainer.classList.add('orbiting');
+          spinningStarted = true;
+        }
+      }
     });
     
     // CTA animation
@@ -949,6 +1227,165 @@
           });
         }
       });
+    });
+    
+    // Floating tooltip system
+    const floatingTooltip = document.getElementById('floatingTooltip');
+    const tooltipContent = document.getElementById('tooltipContent');
+    const tooltipClose = document.getElementById('tooltipClose');
+    const tooltipLine = document.getElementById('tooltipLine');
+    const lineSVG = tooltipLine.querySelector('line');
+    
+    const tooltipData = {
+      bubble1: {
+        title: 'KimiV1 Classification',
+        text: 'Fine-tuned DistilBERT model that analyzes your task descriptions and classifies activities with 95%+ accuracy. Understands context like "AP Bio homework" vs "reading for fun".'
+      },
+      bubble2: {
+        title: 'Squash Time Prediction',
+        text: 'Advanced regression model that factors in task difficulty, your circadian rhythm patterns, historical completion times, and current productivity levels to predict duration with unprecedented accuracy.'
+      },
+      bubble3: {
+        title: 'Active Learning Hardware',
+        text: 'Physical ESP32-powered timer with NeoPixel LEDs and feedback buttons. Press "done" or "more time" to train the model in real-time, creating a continuous improvement loop.'
+      }
+    };
+    
+    let currentBubble = null;
+    let isDragging = false;
+    let dragOffsetX = 0;
+    let dragOffsetY = 0;
+    
+    // Make tooltip draggable
+    floatingTooltip.addEventListener('mousedown', (e) => {
+      // Don't drag if clicking the close button
+      if (e.target === tooltipClose || tooltipClose.contains(e.target)) return;
+      
+      isDragging = true;
+      floatingTooltip.classList.add('dragging');
+      
+      const rect = floatingTooltip.getBoundingClientRect();
+      dragOffsetX = e.clientX - rect.left;
+      dragOffsetY = e.clientY - rect.top;
+    });
+    
+    document.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        const newX = e.clientX - dragOffsetX;
+        const newY = e.clientY - dragOffsetY;
+        
+        // Keep on screen
+        const maxX = window.innerWidth - 320;
+        const maxY = window.innerHeight - floatingTooltip.offsetHeight;
+        
+        const clampedX = Math.max(0, Math.min(newX, maxX));
+        const clampedY = Math.max(0, Math.min(newY, maxY));
+        
+        floatingTooltip.style.left = clampedX + 'px';
+        floatingTooltip.style.top = clampedY + 'px';
+        
+        // Update line position
+        if (currentBubble) {
+          updateLineOnly();
+        }
+      }
+    });
+    
+    document.addEventListener('mouseup', () => {
+      if (isDragging) {
+        isDragging = false;
+        floatingTooltip.classList.remove('dragging');
+      }
+    });
+    
+    // Click bubble to show tooltip
+    bubbles.forEach(bubble => {
+      bubble.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const bubbleId = bubble.id;
+        const data = tooltipData[bubbleId];
+        
+        if (data) {
+          tooltipContent.innerHTML = `<h5>${data.title}</h5><p>${data.text}</p>`;
+          currentBubble = bubble;
+          floatingTooltip.classList.add('active');
+          tooltipLine.classList.add('active');
+          
+          // Position tooltip at click location and STAY THERE
+          positionTooltipAtClick(e);
+        }
+      });
+    });
+    
+    // Update line position when tooltip is active (but don't move tooltip!)
+    document.addEventListener('mousemove', (e) => {
+      if (floatingTooltip.classList.contains('active') && currentBubble) {
+        updateLineOnly();
+      }
+    });
+    
+    function positionTooltipAtClick(e) {
+      if (!currentBubble) return;
+      
+      // Position tooltip near click location
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+      const offsetX = 20;
+      const offsetY = 20;
+      
+      let tooltipX = mouseX + offsetX;
+      let tooltipY = mouseY + offsetY;
+      
+      // Keep tooltip on screen
+      const tooltipRect = floatingTooltip.getBoundingClientRect();
+      if (tooltipX + 320 > window.innerWidth) {
+        tooltipX = mouseX - 320 - offsetX;
+      }
+      if (tooltipY + 200 > window.innerHeight) {
+        tooltipY = mouseY - 200 - offsetY;
+      }
+      
+      floatingTooltip.style.left = tooltipX + 'px';
+      floatingTooltip.style.top = tooltipY + 'px';
+      
+      // Draw initial line
+      updateLineOnly();
+    }
+    
+    function updateLineOnly() {
+      if (!currentBubble) return;
+      
+      // Get bubble center position
+      const bubbleRect = currentBubble.getBoundingClientRect();
+      const bubbleX = bubbleRect.left + bubbleRect.width / 2;
+      const bubbleY = bubbleRect.top + bubbleRect.height / 2;
+      
+      // Get tooltip position (FIXED, not following mouse!)
+      const tooltipRect = floatingTooltip.getBoundingClientRect();
+      const tooltipX = tooltipRect.left;
+      const tooltipY = tooltipRect.top + tooltipRect.height / 2;
+      
+      // Draw line from bubble to tooltip
+      lineSVG.setAttribute('x1', bubbleX);
+      lineSVG.setAttribute('y1', bubbleY);
+      lineSVG.setAttribute('x2', tooltipX);
+      lineSVG.setAttribute('y2', tooltipY);
+    }
+    
+    // Close tooltip
+    tooltipClose.addEventListener('click', () => {
+      floatingTooltip.classList.remove('active');
+      tooltipLine.classList.remove('active');
+      currentBubble = null;
+    });
+    
+    // Close on clicking outside
+    document.addEventListener('click', (e) => {
+      if (!floatingTooltip.contains(e.target) && floatingTooltip.classList.contains('active')) {
+        floatingTooltip.classList.remove('active');
+        tooltipLine.classList.remove('active');
+        currentBubble = null;
+      }
     });
     
     // Waitlist form handler (placeholder)
