@@ -9,7 +9,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   
   <!-- GSAP for animations -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -35,11 +35,12 @@
     }
     
     body {
-      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg-primary);
       color: var(--text-primary);
       overflow-x: hidden;
       line-height: 1.6;
+      font-weight: 400;
     }
     
     /* Smooth scrolling */
@@ -119,12 +120,13 @@
     /* Hero Section */
     .hero {
       min-height: 100vh;
+      min-height: max(100vh, 700px);
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
       overflow: hidden;
-      padding: 100px 5% 0;
+      padding: 100px 5% 80px;
     }
     
     .hero-bg {
@@ -187,12 +189,12 @@
     }
     
     .hero h1 {
-      font-family: 'Syne', sans-serif;
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
       font-size: clamp(48px, 8vw, 96px);
-      font-weight: 800;
-      line-height: 1.1;
+      font-weight: 700;
+      line-height: 1.05;
       margin-bottom: 30px;
-      letter-spacing: -0.5px;
+      letter-spacing: -1.5px;
     }
     
     .gradient-text {
@@ -217,6 +219,7 @@
       gap: 20px;
       justify-content: center;
       flex-wrap: wrap;
+      margin-bottom: 80px;
     }
     
     .btn {
@@ -280,11 +283,12 @@
     }
     
     .section-header h2 {
-      font-family: 'Syne', sans-serif;
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
       font-size: clamp(36px, 6vw, 64px);
-      font-weight: 800;
+      font-weight: 700;
       margin-bottom: 20px;
-      letter-spacing: 0px;
+      letter-spacing: -1px;
+      line-height: 1.1;
     }
     
     .section-header p {
@@ -339,11 +343,11 @@
     }
     
     .feature-card h3 {
-      font-family: 'Syne', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-size: 24px;
-      font-weight: 700;
+      font-weight: 600;
       margin-bottom: 15px;
-      letter-spacing: 0px;
+      letter-spacing: -0.3px;
     }
     
     .feature-card p {
@@ -383,10 +387,11 @@
     }
     
     .tech-item h4 {
-      font-family: 'Syne', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-size: 18px;
-      font-weight: 700;
+      font-weight: 600;
       margin-bottom: 10px;
+      letter-spacing: -0.2px;
     }
     
     .tech-item p {
@@ -408,11 +413,12 @@
     }
     
     .cta-content h2 {
-      font-family: 'Syne', sans-serif;
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
       font-size: clamp(36px, 6vw, 72px);
-      font-weight: 800;
+      font-weight: 700;
       margin-bottom: 30px;
-      letter-spacing: 0px;
+      letter-spacing: -1px;
+      line-height: 1.1;
     }
     
     .cta-content p {
@@ -509,10 +515,11 @@
     }
     
     .footer-links h4 {
-      font-family: 'Syne', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-size: 16px;
-      font-weight: 700;
+      font-weight: 600;
       margin-bottom: 20px;
+      letter-spacing: -0.2px;
     }
     
     .footer-links ul {
@@ -547,7 +554,12 @@
       }
       
       .hero {
-        padding: 80px 5% 0;
+        padding: 80px 5% 60px;
+        min-height: max(100vh, 600px);
+      }
+      
+      .cta-buttons {
+        margin-bottom: 60px;
       }
       
       .features {
@@ -576,10 +588,34 @@
       }
     }
     
+    /* Ultra-wide screens */
+    @media (min-width: 1920px) {
+      .hero-content {
+        max-width: 1200px;
+      }
+      
+      .features-grid,
+      .tech-grid {
+        max-width: 1600px;
+      }
+    }
+    
+    /* Short screens (4:5 aspect ratio, etc) */
+    @media (max-aspect-ratio: 4/5) {
+      .hero {
+        min-height: auto;
+        padding: 100px 5% 80px;
+      }
+      
+      .scroll-indicator {
+        display: none;
+      }
+    }
+    
     /* Scroll indicator */
     .scroll-indicator {
       position: absolute;
-      bottom: 40px;
+      bottom: 60px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -588,6 +624,18 @@
       gap: 10px;
       opacity: 0;
       z-index: 2;
+    }
+    
+    @media (max-height: 700px) {
+      .scroll-indicator {
+        display: none;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .scroll-indicator {
+        bottom: 40px;
+      }
     }
     
     .scroll-indicator span {
