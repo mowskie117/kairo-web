@@ -156,6 +156,8 @@
       padding: 60px 40px;
       position: relative;
       min-height: 650px;
+      border-radius: 24px;
+      overflow: hidden;
     }
     
     .carousel-slide img {
@@ -164,6 +166,7 @@
       max-height: 600px;
       object-fit: contain;
       filter: drop-shadow(0 30px 60px rgba(102, 126, 234, 0.4));
+      border-radius: 20px;
     }
     
     /* Coming Soon Overlay */
@@ -202,6 +205,43 @@
       font-weight: 700;
       letter-spacing: -2px;
       color: var(--text-secondary);
+    }
+    
+    /* Splash Text (Top-left corner) */
+    .splash-text {
+      position: absolute;
+      top: 30px;
+      left: 30px;
+      z-index: 20;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 12px 24px;
+      border-radius: 100px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+      animation: heartbeat 2s ease-in-out infinite;
+    }
+    
+    @keyframes heartbeat {
+      0%, 100% {
+        transform: scale(1);
+      }
+      14% {
+        transform: scale(1.15);
+      }
+      28% {
+        transform: scale(1);
+      }
+      42% {
+        transform: scale(1.15);
+      }
+      56% {
+        transform: scale(1);
+      }
     }
     
     /* Carousel Navigation Arrows */
@@ -532,9 +572,12 @@
     
     <div class="carousel-container">
       <div class="carousel-track" id="carouselTrack">
-        <!-- Slide 1 - Beacon -->
+        <!-- Slide 1 - Beacon (Clickable!) -->
         <div class="carousel-slide">
-          <img src="beacon-glow.png" alt="Beacon - Physical productivity device">
+          <a href="/beacon" style="position: relative; display: block; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+            <img src="beacon-glow.png" alt="Beacon - Physical productivity device">
+            <div class="splash-text">🔥 Beacon Available!</div>
+          </a>
         </div>
         
         <!-- Slide 2 - Kairo Platform (Coming Soon) -->
@@ -544,6 +587,7 @@
             <div class="coming-soon-tag">Software</div>
             <div class="coming-soon-text">Coming Soon</div>
           </div>
+          <div class="splash-text">✨ Coming Soon! Stay Tuned!</div>
         </div>
         
         <!-- Slide 3 - Calendar Integration (Coming Soon) -->
@@ -553,6 +597,7 @@
             <div class="coming-soon-tag">Software</div>
             <div class="coming-soon-text">Coming Soon</div>
           </div>
+          <div class="splash-text">⏰ Stay Tuned for Updates!</div>
         </div>
       </div>
       
