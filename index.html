@@ -7,7 +7,7 @@
   <meta name="description" content="Revolutionary ML-powered system that learns your workflow and maximizes productivity through intelligent time prediction">
   
   <!-- Favicons -->
-  <link rel="icon" type="image/svg+xml" href="kairo-logo.png">
+  <link rel="icon" type="image/png" href="kairo-logo.png">
   <link rel="apple-touch-icon" href="kairo-logo.png">
   
   <!-- Fonts -->
@@ -388,11 +388,69 @@
     
     .tech-bubble {
       position: absolute;
-      width: 200px;
-      height: 200px;
+      width: 240px;
+      height: 240px;
       opacity: 0;
       transform: scale(0.8);
       z-index: 10;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .tech-bubble:hover {
+      transform: scale(0.85);
+    }
+    
+    /* Indicator wrapper - handles positioning, NO rotation */
+    .indicator-wrapper {
+      position: absolute;
+      bottom: -70px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      pointer-events: none;
+    }
+    
+    /* Click indicator - just the content */
+    .click-indicator {
+      text-align: center;
+      opacity: 1;
+      animation: pulseIndicator 2s ease-in-out infinite;
+      transition: opacity 0.5s ease;
+    }
+    
+    .tech-bubble.clicked .click-indicator {
+      opacity: 0;
+    }
+    
+    .tap-icon {
+      font-size: 32px;
+      margin-top: 4px;
+      animation: tapBounce 1.5s ease-in-out infinite;
+    }
+    
+    .tap-text {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 6px 14px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      white-space: nowrap;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    @keyframes pulseIndicator {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+    
+    @keyframes tapBounce {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(10px); }
     }
     
     .tech-bubble[data-position="top"] {
@@ -417,12 +475,24 @@
       transform: translateX(-50%) scale(1);
     }
     
+    .tech-bubble.active[data-position="top"]:hover {
+      transform: translateX(-50%) scale(1.05);
+    }
+    
     .tech-bubble.active[data-position="bottom-left"] {
       transform: scale(1);
     }
     
+    .tech-bubble.active[data-position="bottom-left"]:hover {
+      transform: scale(1.05);
+    }
+    
     .tech-bubble.active[data-position="bottom-right"] {
       transform: scale(1);
+    }
+    
+    .tech-bubble.active[data-position="bottom-right"]:hover {
+      transform: scale(1.05);
     }
     
     .bubble-inner {
@@ -438,6 +508,15 @@
       position: relative;
       transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
       box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+    }
+    
+    .tech-triangle-container.orbiting .bubble-inner {
+      animation: counterOrbit 12s linear infinite;
+    }
+    
+    @keyframes counterOrbit {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(-360deg); }
     }
     
     .tech-bubble:nth-child(3) .bubble-inner {
@@ -490,17 +569,8 @@
       text-align: center;
       z-index: 2;
       position: relative;
-      transform: rotate(0deg);
     }
     
-    .tech-triangle-container.orbiting .bubble-content {
-      animation: counterOrbit 12s linear infinite;
-    }
-    
-    @keyframes counterOrbit {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(-360deg); }
-    }
     
     .tech-emoji {
       font-size: 48px;
@@ -791,8 +861,8 @@
       }
       
       .tech-bubble {
-        width: 140px;
-        height: 140px;
+        width: 170px;
+        height: 170px;
       }
       
       .connection-lines {
@@ -996,6 +1066,12 @@
             <h4>Hugging Face</h4>
             <p>DistilBERT Model</p>
           </div>
+          <div class="indicator-wrapper">
+            <div class="click-indicator" data-bubble="bubble1">
+              <div class="tap-icon">☝️</div>
+              <div class="tap-text">Tap to learn more</div>
+            </div>
+          </div>
         </div>
       </div>
       
@@ -1006,6 +1082,12 @@
             <h4>Custom Regression</h4>
             <p>Time Prediction</p>
           </div>
+          <div class="indicator-wrapper">
+            <div class="click-indicator" data-bubble="bubble2">
+              <div class="tap-icon">☝️</div>
+              <div class="tap-text">Tap to learn more</div>
+            </div>
+          </div>
         </div>
       </div>
       
@@ -1015,6 +1097,12 @@
             <div class="tech-emoji">⚡</div>
             <h4>ESP32 IoT</h4>
             <p>Hardware Integration</p>
+          </div>
+          <div class="indicator-wrapper">
+            <div class="click-indicator" data-bubble="bubble3">
+              <div class="tap-icon">☝️</div>
+              <div class="tap-text">Tap to learn more</div>
+            </div>
           </div>
         </div>
       </div>
@@ -1309,6 +1397,9 @@
         e.stopPropagation();
         const bubbleId = bubble.id;
         const data = tooltipData[bubbleId];
+        
+        // Mark bubble as clicked (hides indicator)
+        bubble.classList.add('clicked');
         
         if (data) {
           tooltipContent.innerHTML = `<h5>${data.title}</h5><p>${data.text}</p>`;
