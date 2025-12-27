@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products - Kairo</title>
+  <meta name="description" content="Explore Kairo's AI-powered productivity products. Hardware and software working in perfect harmony.">
+  
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" href="kairo-logo.png">
+  <link rel="apple-touch-icon" href="kairo-logo.png">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    :root {
+      --bg-primary: #000000;
+      --text-primary: #ffffff;
+      --text-secondary: #a0a0a0;
+      --accent: #667eea;
+    }
+    
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 20px 5%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    nav.scrolled {
+      padding: 15px 5%;
+      background: rgba(0, 0, 0, 0.95);
+    }
+    
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+    
+    .logo-ai {
+      background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c, #4facfe, #00f2fe);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: rainbow 3s linear infinite;
+    }
+    
+    @keyframes rainbow {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+    
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      letter-spacing: 0.3px;
+    }
+    
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--text-primary);
+    }
+    
+    /* Hero Slideshow Section */
+    .hero-slideshow {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 100px 5% 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero-slideshow h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(48px, 8vw, 72px);
+      font-weight: 700;
+      margin-bottom: 60px;
+      text-align: center;
+      letter-spacing: -2px;
+    }
+    
+    /* Carousel Container */
+    .carousel-container {
+      width: 100%;
+      max-width: 1000px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+    
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    
+    .carousel-slide {
+      min-width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+    
+    .carousel-slide img {
+      max-width: 100%;
+      height: auto;
+      max-height: 500px;
+      object-fit: contain;
+      filter: drop-shadow(0 30px 60px rgba(102, 126, 234, 0.4));
+    }
+    
+    /* Carousel Navigation Arrows */
+    .carousel-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 10;
+    }
+    
+    .carousel-nav:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-50%) scale(1.1);
+    }
+    
+    .carousel-nav.prev {
+      left: 20px;
+    }
+    
+    .carousel-nav.next {
+      right: 20px;
+    }
+    
+    .carousel-nav svg {
+      width: 24px;
+      height: 24px;
+      fill: white;
+    }
+    
+    /* Carousel Dots */
+    .carousel-dots {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+    
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .dot.active {
+      background: var(--accent);
+      transform: scale(1.2);
+    }
+    
+    .dot:hover {
+      background: rgba(255, 255, 255, 0.6);
+    }
+    
+    /* Product Lineup Section */
+    .product-lineup {
+      padding: 120px 5%;
+      background: radial-gradient(circle at 50% 0%, rgba(102, 126, 234, 0.1) 0%, transparent 60%);
+    }
+    
+    .product-lineup h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(40px, 6vw, 64px);
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 80px;
+      letter-spacing: -2px;
+    }
+    
+    .products-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      gap: 40px;
+    }
+    
+    .product-card {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.05) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 60px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      align-items: center;
+      gap: 60px;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .product-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.1) 100%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: 0;
+    }
+    
+    .product-card:hover::before {
+      opacity: 1;
+    }
+    
+    .product-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 30px 80px rgba(102, 126, 234, 0.3),
+                  0 0 60px rgba(102, 126, 234, 0.2);
+      border-color: rgba(102, 126, 234, 0.5);
+    }
+    
+    .product-image {
+      flex: 0 0 300px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .product-image img {
+      width: 100%;
+      height: auto;
+      filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4));
+    }
+    
+    .product-info {
+      flex: 1;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .product-tag {
+      display: inline-block;
+      padding: 6px 16px;
+      background: rgba(102, 126, 234, 0.2);
+      border: 1px solid rgba(102, 126, 234, 0.3);
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+      color: #667eea;
+    }
+    
+    .product-info h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: -1px;
+    }
+    
+    .product-info p {
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+    
+    .product-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--accent);
+      transition: gap 0.3s ease;
+    }
+    
+    .product-card:hover .product-link {
+      gap: 12px;
+    }
+    
+    .product-link svg {
+      width: 16px;
+      height: 16px;
+      fill: var(--accent);
+    }
+    
+    /* Coming Soon Card */
+    .product-card.coming-soon {
+      opacity: 0.6;
+      cursor: default;
+    }
+    
+    .product-card.coming-soon:hover {
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .product-card.coming-soon::before {
+      opacity: 0;
+    }
+    
+    /* Footer */
+    footer {
+      padding: 80px 5% 40px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 60px;
+      margin-bottom: 60px;
+    }
+    
+    .footer-brand h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 15px;
+    }
+    
+    .footer-logo-ai {
+      background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c, #4facfe, #00f2fe);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: rainbow 3s linear infinite;
+    }
+    
+    .footer-brand p {
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    
+    .footer-links h4 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    
+    .footer-links ul {
+      list-style: none;
+    }
+    
+    .footer-links li {
+      margin-bottom: 12px;
+    }
+    
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s ease;
+    }
+    
+    .footer-links a:hover {
+      color: var(--text-primary);
+    }
+    
+    .footer-bottom {
+      text-align: center;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      
+      .carousel-nav {
+        width: 40px;
+        height: 40px;
+      }
+      
+      .carousel-nav.prev {
+        left: 10px;
+      }
+      
+      .carousel-nav.next {
+        right: 10px;
+      }
+      
+      .product-card {
+        flex-direction: column;
+        padding: 40px 30px;
+        gap: 40px;
+      }
+      
+      .product-image {
+        flex: 0 0 auto;
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav id="nav">
+    <div class="nav-container">
+      <a href="/" class="logo">K<span class="logo-ai">AI</span>RO</a>
+      <ul class="nav-links">
+        <li><a href="/#features">Features</a></li>
+        <li><a href="/#technology">Technology</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/#waitlist">Get Started</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Slideshow Section -->
+  <section class="hero-slideshow">
+    <h1>Productivity. Redefined.</h1>
+    
+    <div class="carousel-container">
+      <div class="carousel-track" id="carouselTrack">
+        <!-- Slide 1 -->
+        <div class="carousel-slide">
+          <img src="beacon-glow.png" alt="Beacon - Physical productivity device">
+        </div>
+        
+        <!-- Slide 2 (placeholder for future products) -->
+        <div class="carousel-slide">
+          <img src="beacon-hero.png" alt="Kairo Platform">
+        </div>
+        
+        <!-- Slide 3 (placeholder) -->
+        <div class="carousel-slide">
+          <img src="beacon-side.png" alt="Kairo Ecosystem">
+        </div>
+      </div>
+      
+      <!-- Navigation Arrows -->
+      <button class="carousel-nav prev" id="prevBtn">
+        <svg viewBox="0 0 24 24">
+          <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+        </svg>
+      </button>
+      <button class="carousel-nav next" id="nextBtn">
+        <svg viewBox="0 0 24 24">
+          <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+        </svg>
+      </button>
+    </div>
+    
+    <!-- Dots Navigation -->
+    <div class="carousel-dots" id="carouselDots">
+      <div class="dot active" data-slide="0"></div>
+      <div class="dot" data-slide="1"></div>
+      <div class="dot" data-slide="2"></div>
+    </div>
+  </section>
+
+  <!-- Product Lineup Section -->
+  <section class="product-lineup">
+    <h2>The Complete Lineup</h2>
+    
+    <div class="products-grid">
+      <!-- Beacon -->
+      <a href="/beacon" class="product-card">
+        <div class="product-image">
+          <img src="beacon-glow.png" alt="Beacon">
+        </div>
+        <div class="product-info">
+          <div class="product-tag">Hardware</div>
+          <h3>Beacon</h3>
+          <p>Your physical reminder to disconnect and focus. Screen-free productivity feedback that learns from you with every task.</p>
+          <div class="product-link">
+            Learn more
+            <svg viewBox="0 0 24 24">
+              <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+            </svg>
+          </div>
+        </div>
+      </a>
+      
+      <!-- Kairo Platform (Coming Soon) -->
+      <div class="product-card coming-soon">
+        <div class="product-image">
+          <img src="beacon-hero.png" alt="Kairo Platform">
+        </div>
+        <div class="product-info">
+          <div class="product-tag">Software</div>
+          <h3>Kairo Platform</h3>
+          <p>AI-powered calendar integration with smart scheduling and predictive insights. Coming soon.</p>
+          <div class="product-link" style="color: var(--text-secondary);">
+            Coming Soon
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h3>K<span class="footer-logo-ai">AI</span>RO</h3>
+        <p>AI-powered productivity intelligence for the modern world. Founded by innovators who believe you deserve to accomplish more.</p>
+      </div>
+      
+      <div class="footer-links">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/#features">Features</a></li>
+          <li><a href="/#technology">Technology</a></li>
+          <li><a href="/#waitlist">Waitlist</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-links">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/products">Products</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-links">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2025 Kairo. All rights reserved. Built with precision and passion.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Navbar scroll effect
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    });
+    
+    // Carousel functionality
+    const track = document.getElementById('carouselTrack');
+    const dots = document.querySelectorAll('.dot');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    
+    let currentSlide = 0;
+    const totalSlides = 3;
+    
+    function updateCarousel() {
+      track.style.transform = `translateX(-${currentSlide * 100}%)`;
+      
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentSlide);
+      });
+    }
+    
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      updateCarousel();
+    }
+    
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      updateCarousel();
+    }
+    
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+    
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        currentSlide = parseInt(dot.dataset.slide);
+        updateCarousel();
+      });
+    });
+    
+    // Auto-advance carousel
+    let autoAdvance = setInterval(nextSlide, 5000);
+    
+    // Pause auto-advance on hover
+    const carouselContainer = document.querySelector('.carousel-container');
+    carouselContainer.addEventListener('mouseenter', () => {
+      clearInterval(autoAdvance);
+    });
+    
+    carouselContainer.addEventListener('mouseleave', () => {
+      autoAdvance = setInterval(nextSlide, 5000);
+    });
+    
+    // Touch/swipe support
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    carouselContainer.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+    
+    carouselContainer.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    });
+    
+    function handleSwipe() {
+      if (touchEndX < touchStartX - 50) nextSlide();
+      if (touchEndX > touchStartX + 50) prevSlide();
+    }
+  </script>
+</body>
+</html>
