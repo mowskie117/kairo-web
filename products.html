@@ -140,6 +140,7 @@
       position: relative;
       overflow: hidden;
       margin-bottom: 40px;
+      min-height: 650px;
     }
     
     .carousel-track {
@@ -152,15 +153,55 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 40px;
+      padding: 60px 40px;
+      position: relative;
+      min-height: 650px;
     }
     
     .carousel-slide img {
       max-width: 100%;
       height: auto;
-      max-height: 500px;
+      max-height: 600px;
       object-fit: contain;
       filter: drop-shadow(0 30px 60px rgba(102, 126, 234, 0.4));
+    }
+    
+    /* Coming Soon Overlay */
+    .coming-soon-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      z-index: 10;
+    }
+    
+    .coming-soon-tag {
+      display: inline-block;
+      padding: 8px 20px;
+      background: rgba(102, 126, 234, 0.2);
+      border: 1px solid rgba(102, 126, 234, 0.4);
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 20px;
+      color: #667eea;
+    }
+    
+    .coming-soon-text {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(40px, 6vw, 64px);
+      font-weight: 700;
+      letter-spacing: -2px;
+      color: var(--text-secondary);
     }
     
     /* Carousel Navigation Arrows */
@@ -491,19 +532,27 @@
     
     <div class="carousel-container">
       <div class="carousel-track" id="carouselTrack">
-        <!-- Slide 1 -->
+        <!-- Slide 1 - Beacon -->
         <div class="carousel-slide">
           <img src="beacon-glow.png" alt="Beacon - Physical productivity device">
         </div>
         
-        <!-- Slide 2 (placeholder for future products) -->
+        <!-- Slide 2 - Kairo Platform (Coming Soon) -->
         <div class="carousel-slide">
-          <img src="beacon-hero.png" alt="Kairo Platform">
+          <img src="beacon-hero.png" alt="Kairo Platform" style="opacity: 0.3;">
+          <div class="coming-soon-overlay">
+            <div class="coming-soon-tag">Software</div>
+            <div class="coming-soon-text">Coming Soon</div>
+          </div>
         </div>
         
-        <!-- Slide 3 (placeholder) -->
+        <!-- Slide 3 - Calendar Integration (Coming Soon) -->
         <div class="carousel-slide">
-          <img src="beacon-side.png" alt="Kairo Ecosystem">
+          <img src="beacon-side.png" alt="Kairo Ecosystem" style="opacity: 0.3;">
+          <div class="coming-soon-overlay">
+            <div class="coming-soon-tag">Software</div>
+            <div class="coming-soon-text">Coming Soon</div>
+          </div>
         </div>
       </div>
       
