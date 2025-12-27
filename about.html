@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - Kairo</title>
+  <meta name="description" content="Meet the team behind Kairo and learn why we're building AI-powered productivity intelligence">
+  
+  <!-- Favicons -->
+  <link rel="icon" type="image/svg+xml" href="kairo-logo-v2.png">
+  <link rel="apple-touch-icon" href="kairo-logo-v2.png">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    :root {
+      --bg-primary: #000000;
+      --bg-secondary: #0a0a0a;
+      --text-primary: #ffffff;
+      --text-secondary: #a0a0a0;
+      --accent: #0071e3;
+      --accent-glow: rgba(0, 113, 227, 0.4);
+      --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    /* Navigation - Same as landing page */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 20px 5%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    nav.scrolled {
+      padding: 15px 5%;
+      background: rgba(0, 0, 0, 0.95);
+    }
+    
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+    
+    .logo-ai {
+      background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c, #4facfe, #00f2fe);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: rainbow 3s linear infinite;
+    }
+    
+    @keyframes rainbow {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+    
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      letter-spacing: 0.3px;
+    }
+    
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--text-primary);
+    }
+    
+    /* Hero Section */
+    .hero {
+      padding: 180px 5% 100px;
+      text-align: center;
+      background: radial-gradient(circle at 50% 20%, rgba(102, 126, 234, 0.15) 0%, transparent 50%);
+    }
+    
+    .hero h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(48px, 8vw, 80px);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      letter-spacing: -1.5px;
+    }
+    
+    .gradient-text {
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .hero p {
+      font-size: 20px;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+    
+    /* Story Section */
+    .story-section {
+      padding: 100px 5%;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    .story-section h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 700;
+      margin-bottom: 32px;
+      letter-spacing: -1px;
+    }
+    
+    .story-section p {
+      font-size: 18px;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+    
+    .story-section p:last-child {
+      margin-bottom: 0;
+    }
+    
+    /* Founder Section */
+    .founder-section {
+      padding: 100px 5%;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(36px, 6vw, 56px);
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 80px;
+      letter-spacing: -1px;
+    }
+    
+    .founder-card {
+      max-width: 600px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 60px;
+      text-align: center;
+      transition: all 0.4s ease;
+    }
+    
+    .founder-card:hover {
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateY(-10px);
+      box-shadow: 0 20px 60px rgba(102, 126, 234, 0.2);
+    }
+    
+    .founder-photo {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      margin: 0 auto 32px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 72px;
+      color: white;
+      font-weight: 700;
+      border: 4px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .founder-card h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    
+    .founder-card .title {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+    
+    .founder-card .location {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+    
+    .founder-card .bio {
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+    }
+    
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 100px;
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .social-link:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+    
+    /* Team Placeholder */
+    .team-placeholder {
+      padding: 100px 5%;
+      text-align: center;
+    }
+    
+    .team-placeholder h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(36px, 6vw, 56px);
+      font-weight: 700;
+      margin-bottom: 24px;
+      letter-spacing: -1px;
+    }
+    
+    .team-placeholder p {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    /* Footer */
+    footer {
+      padding: 60px 5% 40px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+    }
+    
+    .footer-bottom {
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      
+      .hero {
+        padding: 120px 5% 60px;
+      }
+      
+      .story-section {
+        padding: 60px 5%;
+      }
+      
+      .founder-section {
+        padding: 60px 5%;
+      }
+      
+      .section-title {
+        margin-bottom: 50px;
+      }
+      
+      .founder-card {
+        padding: 40px 30px;
+      }
+      
+      .team-placeholder {
+        padding: 60px 5%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav id="nav">
+    <div class="nav-container">
+      <a href="/" class="logo">K<span class="logo-ai">AI</span>RO</a>
+      <ul class="nav-links">
+        <li><a href="/#features">Features</a></li>
+        <li><a href="/#technology">Technology</a></li>
+        <li><a href="/about" class="active">About</a></li>
+        <li><a href="/#waitlist">Get Started</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Building the Future of <br/><span class="gradient-text">Productivity Intelligence</span></h1>
+    <p>Meet the team behind Kairo and learn why we're passionate about helping you achieve more.</p>
+  </section>
+
+  <!-- Story Section -->
+  <section class="story-section">
+    <h2>Why We Built Kairo</h2>
+    <p>As a high school student juggling AP classes, robotics club, and running multiple startups, I struggled with procrastination and lack of motivation. The constant anxiety of "Am I doing enough?" and "How long will this actually take?" was overwhelming.</p>
+    
+    <p>I realized that even for people who don't like to think proactively—whether that's because of fear of what's coming next or other reasons—there needs to be a system they can trust. A system that plans ahead for them, so they can safely follow it and know they're on track.</p>
+    
+    <p>That's why we built Kairo. Not just another productivity app, but an AI-powered intelligence that understands how you work, predicts how long tasks will take with unprecedented accuracy, and gives you the confidence to tackle your day without the mental overhead of constant planning.</p>
+    
+    <p>We believe productivity shouldn't require proactive thinking from everyone. Kairo handles the planning, builds the trust, and lets you focus on what matters: actually getting things done.</p>
+  </section>
+
+  <!-- Founder Section -->
+  <section class="founder-section">
+    <h2 class="section-title">Founder</h2>
+    
+    <div class="founder-card">
+      <div class="founder-photo">
+        <!-- Photo placeholder - will be replaced with actual photo -->
+        LC
+      </div>
+      <h3>Leo Chen</h3>
+      <div class="title">Founder & CEO</div>
+      <div class="location">Arden Hills, Minnesota • Class of 2027</div>
+      <p class="bio">
+        11th grade student passionate about solving real-world problems through engineering. 
+        Loves tinkering with ESP32 and Arduino-based systems, 3D printing, and playing piano. 
+        Founded Kairo to help students and professionals overcome procrastination through AI-powered time intelligence.
+      </p>
+      <a href="https://www.linkedin.com/in/leo-%E0%B2%A0-%E0%B2%A0-%E9%AD%88-b89665371/" target="_blank" class="social-link">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+        </svg>
+        Connect on LinkedIn
+      </a>
+    </div>
+  </section>
+
+  <!-- Team Placeholder -->
+  <section class="team-placeholder">
+    <h2>Meet the Full Team</h2>
+    <p>Our team is currently away for winter break. Check back soon to meet the amazing people building Kairo!</p>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Kairo. All rights reserved. Built with precision and passion.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Navbar scroll effect
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    });
+  </script>
+</body>
+</html>
