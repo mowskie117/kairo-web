@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beacon - Kairo</title>
+  <meta name="description" content="Introducing Beacon. Your physical reminder to disconnect and focus. Screen-free productivity feedback that adapts to you.">
+  
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" href="kairo-logo.png">
+  <link rel="apple-touch-icon" href="kairo-logo.png">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    :root {
+      --bg-primary: #000000;
+      --bg-secondary: #0a0a0a;
+      --text-primary: #ffffff;
+      --text-secondary: #a0a0a0;
+      --accent: #667eea;
+    }
+    
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 20px 5%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    nav.scrolled {
+      padding: 15px 5%;
+      background: rgba(0, 0, 0, 0.95);
+    }
+    
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+    
+    .logo-ai {
+      background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c, #4facfe, #00f2fe);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: rainbow 3s linear infinite;
+    }
+    
+    @keyframes rainbow {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+    
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      letter-spacing: 0.3px;
+    }
+    
+    .nav-links a:hover {
+      color: var(--text-primary);
+    }
+    
+    /* Hero Section - Apple Style */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 100px 5% 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero-intro {
+      font-size: 18px;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    
+    .hero h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(80px, 15vw, 180px);
+      font-weight: 700;
+      line-height: 0.9;
+      margin-bottom: 40px;
+      letter-spacing: -3px;
+      background: linear-gradient(135deg, #ffffff 0%, #667eea 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .hero-tagline {
+      font-size: clamp(24px, 4vw, 36px);
+      color: var(--text-secondary);
+      margin-bottom: 60px;
+      font-weight: 300;
+      letter-spacing: -0.5px;
+    }
+    
+    .hero-image {
+      width: 100%;
+      max-width: 900px;
+      margin: 60px auto 0;
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    
+    .hero-image img {
+      width: 100%;
+      height: auto;
+      filter: drop-shadow(0 40px 80px rgba(102, 126, 234, 0.5));
+    }
+    
+    /* Statement Section */
+    .statement {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 5%;
+      text-align: center;
+      background: radial-gradient(circle at 50% 50%, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+    }
+    
+    .statement h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(48px, 8vw, 96px);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 80px;
+      letter-spacing: -2px;
+    }
+    
+    .statement-image {
+      width: 100%;
+      max-width: 800px;
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    
+    .statement-image img {
+      width: 100%;
+      height: auto;
+      border-radius: 20px;
+      filter: drop-shadow(0 20px 60px rgba(102, 126, 234, 0.4));
+    }
+    
+    /* Feature Section */
+    .feature-section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 5%;
+      position: relative;
+    }
+    
+    .feature-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+      align-items: center;
+    }
+    
+    .feature-text h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(40px, 6vw, 72px);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 32px;
+      letter-spacing: -2px;
+    }
+    
+    .feature-text p {
+      font-size: 20px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+    
+    .feature-image {
+      opacity: 0;
+      transform: translateX(50px);
+    }
+    
+    .feature-image img {
+      width: 100%;
+      height: auto;
+      border-radius: 20px;
+      filter: drop-shadow(0 20px 60px rgba(0, 0, 0, 0.6));
+    }
+    
+    .feature-section.reverse .feature-content {
+      direction: rtl;
+    }
+    
+    .feature-section.reverse .feature-text {
+      direction: ltr;
+    }
+    
+    .feature-section.reverse .feature-image {
+      transform: translateX(-50px);
+    }
+    
+    /* Specs Section */
+    .specs-section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 5%;
+      text-align: center;
+    }
+    
+    .specs-section h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(48px, 8vw, 96px);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 80px;
+      letter-spacing: -2px;
+    }
+    
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 60px;
+      max-width: 1200px;
+      margin: 0 auto 80px;
+    }
+    
+    .spec-item {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    
+    .spec-icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+    
+    .spec-item h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    
+    .spec-item p {
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    
+    .specs-image {
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    
+    .specs-image img {
+      width: 100%;
+      height: auto;
+    }
+    
+    /* Coming Soon Section */
+    .coming-soon {
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 5%;
+      text-align: center;
+      background: radial-gradient(circle at 50% 50%, rgba(102, 126, 234, 0.15) 0%, transparent 70%);
+    }
+    
+    .coming-soon h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(48px, 8vw, 96px);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 32px;
+      letter-spacing: -2px;
+    }
+    
+    .coming-soon p {
+      font-size: 24px;
+      color: var(--text-secondary);
+      max-width: 700px;
+      line-height: 1.7;
+    }
+    
+    /* CTA Section */
+    .cta-section {
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 5%;
+      text-align: center;
+    }
+    
+    .cta-section h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(48px, 8vw, 80px);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 32px;
+      letter-spacing: -2px;
+    }
+    
+    .cta-section p {
+      font-size: 20px;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin-bottom: 60px;
+      line-height: 1.7;
+    }
+    
+    .waitlist-form {
+      display: flex;
+      gap: 15px;
+      max-width: 500px;
+      width: 100%;
+    }
+    
+    .waitlist-form input {
+      flex: 1;
+      padding: 18px 24px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 100px;
+      color: white;
+      font-size: 16px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      transition: all 0.3s ease;
+    }
+    
+    .waitlist-form input:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: rgba(255, 255, 255, 0.08);
+    }
+    
+    .waitlist-form button {
+      padding: 18px 40px;
+      background: var(--accent);
+      border: none;
+      border-radius: 100px;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+    
+    .waitlist-form button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+    }
+    
+    /* Footer */
+    footer {
+      padding: 80px 5% 40px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 60px;
+      margin-bottom: 60px;
+    }
+    
+    .footer-brand h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 15px;
+    }
+    
+    .footer-logo-ai {
+      background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c, #4facfe, #00f2fe);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: rainbow 3s linear infinite;
+    }
+    
+    .footer-brand p {
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    
+    .footer-links h4 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--text-primary);
+    }
+    
+    .footer-links ul {
+      list-style: none;
+    }
+    
+    .footer-links li {
+      margin-bottom: 12px;
+    }
+    
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s ease;
+    }
+    
+    .footer-links a:hover {
+      color: var(--text-primary);
+    }
+    
+    .footer-bottom {
+      text-align: center;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      
+      .hero {
+        padding: 80px 5% 60px;
+      }
+      
+      .feature-content {
+        grid-template-columns: 1fr;
+        gap: 60px;
+      }
+      
+      .feature-section.reverse .feature-content {
+        direction: ltr;
+      }
+      
+      .feature-image {
+        transform: translateX(0) !important;
+      }
+      
+      .specs-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      
+      .waitlist-form {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav id="nav">
+    <div class="nav-container">
+      <a href="/" class="logo">K<span class="logo-ai">AI</span>RO</a>
+      <ul class="nav-links">
+        <li><a href="/#features">Features</a></li>
+        <li><a href="/#technology">Technology</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/#waitlist">Get Started</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-intro">Introducing</div>
+    <h1>Beacon.</h1>
+    <div class="hero-tagline">The future of focus.</div>
+    <div class="hero-image" id="heroImage">
+      <img src="beacon-hero.png" alt="Beacon - Kairo's physical productivity device">
+    </div>
+  </section>
+
+  <!-- Statement Section -->
+  <section class="statement">
+    <h2>
+      Work smarter.<br/>
+      Not longer.
+    </h2>
+    <div class="statement-image" id="statementImage">
+      <img src="beacon-glow.png" alt="Beacon glowing with feedback">
+    </div>
+  </section>
+
+  <!-- Feature 1 -->
+  <section class="feature-section">
+    <div class="feature-content">
+      <div class="feature-text" id="feature1Text">
+        <h2>
+          Your reminder.<br/>
+          Without the screen.
+        </h2>
+        <p>
+          Beacon lights up when it's time to move. No notifications. No distractions. Just a gentle glow that keeps you on track—away from your screen when you need to be.
+        </p>
+      </div>
+      <div class="feature-image" id="feature1Image">
+        <img src="beacon-side.png" alt="Beacon design details">
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 2 -->
+  <section class="feature-section reverse">
+    <div class="feature-content">
+      <div class="feature-text" id="feature2Text">
+        <h2>
+          Learns from you.<br/>
+          Every single time.
+        </h2>
+        <p>
+          Press Done when you finish. Press More Time if you need it. Beacon's AI adapts to your rhythm, getting smarter with every task. This is active learning—built into hardware.
+        </p>
+      </div>
+      <div class="feature-image" id="feature2Image">
+        <img src="beacon-hand.png" alt="Beacon in real-world use">
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 3 -->
+  <section class="feature-section">
+    <div class="feature-content">
+      <div class="feature-text" id="feature3Text">
+        <h2>
+          Beautiful.<br/>
+          Functional.<br/>
+          Essential.
+        </h2>
+        <p>
+          Designed to sit on your desk and blend into your workspace. Beacon isn't just a tool—it's a piece of your productivity ecosystem. Minimalist. Intentional. Effective.
+        </p>
+      </div>
+      <div class="feature-image" id="feature3Image">
+        <img src="beacon-side.png" alt="Beacon design philosophy">
+      </div>
+    </div>
+  </section>
+
+  <!-- Specs Section -->
+  <section class="specs-section">
+    <h2>Powered by purpose.</h2>
+    
+    <div class="specs-grid">
+      <div class="spec-item" id="spec1">
+        <div class="spec-icon">⚡</div>
+        <h3>ESP32-C6</h3>
+        <p>Advanced microcontroller with WiFi 6 for seamless connectivity and real-time sync.</p>
+      </div>
+      
+      <div class="spec-item" id="spec2">
+        <div class="spec-icon">💡</div>
+        <h3>NeoPixel LEDs</h3>
+        <p>Vibrant, customizable lighting that provides instant visual feedback you can't miss.</p>
+      </div>
+      
+      <div class="spec-item" id="spec3">
+        <div class="spec-icon">🧠</div>
+        <h3>Active Learning</h3>
+        <p>Every interaction trains Kairo's AI. Your productivity intelligence evolves with you.</p>
+      </div>
+      
+      <div class="spec-item" id="spec4">
+        <div class="spec-icon">🔄</div>
+        <h3>Seamless Sync</h3>
+        <p>Works with Kairo's platform. Use Beacon, or don't—the core AI adapts either way.</p>
+      </div>
+    </div>
+    
+    <div class="specs-image" id="specsImage">
+      <img src="beacon-tech.png" alt="Beacon technical specifications">
+    </div>
+  </section>
+
+  <!-- Coming Soon -->
+  <section class="coming-soon">
+    <h2>And we're just<br/>getting started.</h2>
+    <p>
+      Calendar integration. Smart scheduling. Predictive insights. Beacon is just the beginning of what Kairo can do. The future of productivity is being built right now.
+    </p>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2>Be the first.</h2>
+    <p>Join the waitlist for early access to Beacon and Kairo's AI-powered productivity platform.</p>
+    
+    <form class="waitlist-form" id="waitlistForm">
+      <input type="email" placeholder="Enter your email" required>
+      <button type="submit">Join Waitlist</button>
+    </form>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h3>K<span class="footer-logo-ai">AI</span>RO</h3>
+        <p>AI-powered productivity intelligence for the modern world. Founded by innovators who believe you deserve to accomplish more.</p>
+      </div>
+      
+      <div class="footer-links">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/#features">Features</a></li>
+          <li><a href="/#technology">Technology</a></li>
+          <li><a href="/#waitlist">Waitlist</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-links">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/products">Products</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-links">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2025 Kairo. All rights reserved. Built with precision and passion.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Register GSAP
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // Navbar scroll effect
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    });
+    
+    // Hero image animation
+    gsap.to('#heroImage', {
+      opacity: 1,
+      y: 0,
+      duration: 1.2,
+      delay: 0.5,
+      ease: 'power3.out'
+    });
+    
+    // Statement image
+    ScrollTrigger.create({
+      trigger: '#statementImage',
+      start: 'top 70%',
+      onEnter: () => {
+        gsap.to('#statementImage', {
+          opacity: 1,
+          scale: 1,
+          duration: 1,
+          ease: 'power3.out'
+        });
+      }
+    });
+    
+    // Feature images
+    ['feature1Image', 'feature2Image', 'feature3Image'].forEach(id => {
+      ScrollTrigger.create({
+        trigger: `#${id}`,
+        start: 'top 70%',
+        onEnter: () => {
+          gsap.to(`#${id}`, {
+            opacity: 1,
+            x: 0,
+            duration: 0.8,
+            ease: 'power3.out'
+          });
+        }
+      });
+    });
+    
+    // Specs animation
+    ['spec1', 'spec2', 'spec3', 'spec4'].forEach((id, index) => {
+      ScrollTrigger.create({
+        trigger: `#${id}`,
+        start: 'top 80%',
+        onEnter: () => {
+          gsap.to(`#${id}`, {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            delay: index * 0.1,
+            ease: 'power3.out'
+          });
+        }
+      });
+    });
+    
+    ScrollTrigger.create({
+      trigger: '#specsImage',
+      start: 'top 70%',
+      onEnter: () => {
+        gsap.to('#specsImage', {
+          opacity: 1,
+          scale: 1,
+          duration: 1,
+          ease: 'power3.out'
+        });
+      }
+    });
+    
+    // Waitlist form
+    document.getElementById('waitlistForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('Thank you for joining the waitlist! We\'ll be in touch soon.');
+    });
+  </script>
+</body>
+</html>
